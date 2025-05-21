@@ -1,0 +1,11 @@
+kneed
+matplotlib
+numpy<2
+pandas
+pillow>=10,<11
+py3Dmol
+rdkit-pypi
+scikit-learn
+ttkbootstrap
+
+
