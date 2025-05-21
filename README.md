@@ -1,5 +1,5 @@
 # Docked Compound Cluster Visualiser #
-This application provides a GUI for visualising and clustering docked compounds based on molecular descriptors and fingerprints using DBSCAN. It includes a 3D viewer for selected molecules.
+This application provides a GUI for clustering and visualising docked compounds based on molecular descriptors and fingerprints using DBSCAN. It includes a 3D viewer for selected molecules.
 
 ## Executable ##
 ### <ins>Requirement</ins> ###
@@ -18,6 +18,7 @@ Python 3.9
 
 ### <ins>Dependencies</ins> ###
 OpenEye Python Toolkit is not included here because it must be downloaded manually from https://openeye.app.box.com/s/ebywkngy0p45enmn3za21kb7dzf1mzbl/folder/306164025307, and requires a valid license.
+
 A few Python packages need to be installed.
 
 ### <ins>Steps to run the script</ins> ###
@@ -38,7 +39,7 @@ pip install "C:\path\to\OpenEye_toolkits-<version>-py39-none-<platform>.whl"
 ```bash
 pip install -r "C:\path\to\requirements.txt"
 ```
-5. If requirements.txt is not working, install the packages manually:
+5. If `requirements.txt` is not working, install the packages manually:
 ```bash
 pip install kneed matplotlib "numpy<2" pandas "pillow>=10,<11" py3Dmol rdkit-pypi scikit-learn ttkbootstrap
 ```
@@ -46,3 +47,15 @@ pip install kneed matplotlib "numpy<2" pandas "pillow>=10,<11" py3Dmol rdkit-pyp
 ```bash
 python "C:\path\to\ClusteringApp.py"
 ```
+
+## Note ##
+This application requires an input file in `.oeb` or `.oeb.gz` format that contains the following keywords so it can proceed with clustering:
+- title
+- donor
+- acceptor
+- rotatable
+- logp
+- tpsa
+- mw
+- smiles
+- fred chemgauss4 score
