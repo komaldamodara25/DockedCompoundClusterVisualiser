@@ -203,19 +203,19 @@ def processAndClusterData(df):
     pcaDf["SMILES"] = filteredDf["SMILES"].values
     pcaDf["title"] = filteredDf["title"].values
     pcaDf["FRED Chemgauss4 score"] = filteredDf["FRED Chemgauss4 score"].values
-    pcaDf["label"] = bestLabels
+    pcaDf["cluster label"] = bestLabels
 
     rows = []
 
-    for label in set(pcaDf["label"]) - {-1}:
-        subset = pcaDf[pcaDf["label"] == label].copy()
+    for label in set(pcaDf["cluster label"]) - {-1}:
+        subset = pcaDf[pcaDf["cluster label"] == label].copy()
         centre = subset[pcaCols].mean().values
         # Calculate distances from the centre
         subset["distance"] = np.linalg.norm(subset[pcaCols] - centre, axis = 1)
         subset = subset.sort_values("distance").reset_index(drop = True)
 
         subset[numericalFeatures] = scaler.inverse_transform(subset[numericalFeatures])
-        rows.append(subset[["title", *numericalFeatures, "SMILES", "FRED Chemgauss4 score", "label"]])
+        rows.append(subset[["title", *numericalFeatures, "SMILES", "FRED Chemgauss4 score", "cluster label"]])
 
     sortedDf = pd.concat(rows, ignore_index = True)
     return xPca, bestLabels, sortedDf
@@ -426,14 +426,14 @@ class ClusteringApp(tb.Window):
         popup.geometry("400x400")
 
         # Prepare one selectable list for clusters and another for molecules
-        clusters = sorted(self.resultsDf["label"].unique())
+        clusters = sorted(self.resultsDf["cluster label"].unique())
         clusterVar = tk.StringVar(value = str(clusters[0]))
         molVar = tk.StringVar()
 
         def updateMolList(*args):
             # Update the molecule list based on the selected cluster
             clusterId = int(clusterVar.get())
-            mols = self.resultsDf[self.resultsDf["label"] == clusterId]["title"].tolist()
+            mols = self.resultsDf[self.resultsDf["cluster label"] == clusterId]["title"].tolist()
             molMenu["menu"].delete(0, "end")
 
             for mol in mols:
